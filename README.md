@@ -6,3 +6,5 @@ Here's the steam link: https://steamcommunity.com/sharedfiles/filedetails/?id=31
 
 Workshop ID: 3128986588
 Mod ID: Byrd Specials
+
+[About](docs/About.md)
