@@ -31,7 +31,6 @@ function SpecialZombieAbilities(zombie)
 	if outfit == CHARGER_OUTFIT_NAME then
 		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,CHARGER_MAX_RANGE_CHECK,spclZ)
 		if isInRange then
-			spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
 			if rangeToPlayer <= CHARGER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= CHARGER_CD and spclZ:isKnockedDown() == false then
 					player:setKnockedDown(true);
@@ -42,7 +41,6 @@ function SpecialZombieAbilities(zombie)
 	elseif outfit == BOOMER_OUTFIT_NAME then
 		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,BOOMER_MAX_RANGE_CHECK,spclZ)
 		if isInRange then
-			spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
 			if rangeToPlayer <= BOOMER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= BOOMER_CD then
 					spclZ:getCurrentSquare():explode()
@@ -55,7 +53,6 @@ function SpecialZombieAbilities(zombie)
 	elseif outfit == RECLAIMER_OUTFIT_NAME then
 		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,RECLAIMER_MAX_RANGE_CHECK,spclZ)
 		if isInRange then
-			spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
 			if rangeToPlayer <= RECLAIMER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= RECLAIMER_CD then
 					spclZ:setHealth(RECLAIMER_MIN_HP)
