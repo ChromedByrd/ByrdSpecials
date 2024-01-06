@@ -15,10 +15,12 @@ function isTableEmpty(t)
 end
 --Meant to change behavior of specials.
 function SpecialZombieAbilities(zombie)
+	-- I only added this because I needed a locally exposed value in the debugger.
 	local spclZ = zombie;
 	local outfit = tostring(spclZ:getOutfitName());
 	local mdDta = spclZ:getModData();
 	
+	-- If the table is empty or the mdDta is null it needs to be initialized I guess.
 	if mdDta == nil or isTableEmpty(mdDta) then
 		spclZ:getModData()["abilityTicker"] = 0
 	end
@@ -27,7 +29,8 @@ function SpecialZombieAbilities(zombie)
 	local rangeToPlayer = GetHypotenuse(spclZ:getX(), spclZ:getY(), player:getX(), player:getY());
 	
 	if outfit == CHARGER_OUTFIT_NAME then
-		if rangeToPlayer < CHARGER_MAX_RANGE_CHECK then
+		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,CHARGER_MAX_RANGE_CHECK,spclZ)
+		if isInRange then
 			spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
 			if rangeToPlayer <= CHARGER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= CHARGER_CD and spclZ:isKnockedDown() == false then
@@ -37,7 +40,8 @@ function SpecialZombieAbilities(zombie)
 			end
 		end
 	elseif outfit == BOOMER_OUTFIT_NAME then
-		if rangeToPlayer < BOOMER_MAX_RANGE_CHECK then
+		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,BOOMER_MAX_RANGE_CHECK,spclZ)
+		if isInRange then
 			spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
 			if rangeToPlayer <= BOOMER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= BOOMER_CD then
@@ -49,7 +53,8 @@ function SpecialZombieAbilities(zombie)
 			end
 		end
 	elseif outfit == RECLAIMER_OUTFIT_NAME then
-		if rangeToPlayer < RECLAIMER_MAX_RANGE_CHECK then
+		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,RECLAIMER_MAX_RANGE_CHECK,spclZ)
+		if isInRange then
 			spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
 			if rangeToPlayer <= RECLAIMER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= RECLAIMER_CD then
@@ -61,7 +66,18 @@ function SpecialZombieAbilities(zombie)
 	else
 		--Not a special zombie.
 	end
-	
+end
+--
+function DoCheckAbilityCountdownCheck(zombieToPlayerRange,rangeToCheck,spclZ)
+	-- If they are in range then we need to start the countdown for the ability usage.
+	if zombieToPlayerRange < rangeToCheck then
+		spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
+		return true
+	-- If we are out of range then we need to reset the countdown.
+	else 
+		spclZ:getModData()["abilityTicker"] = 0;
+		return false
+	end
 end
 
 Events.OnZombieUpdate.Add(SpecialZombieAbilities)
