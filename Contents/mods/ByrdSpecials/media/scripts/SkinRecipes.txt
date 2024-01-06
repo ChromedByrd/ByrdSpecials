@@ -1,0 +1,37 @@
+module P4DSpcls
+{
+	imports
+	{
+		Base
+	}
+
+	recipe Tear Charger Skin Apart
+	{
+		chargerSpcl,
+		CanBeDoneFromFloor:true,
+		Result:Base.Butter=1,
+		OnCreate:GetLootFromSkin,
+		Time:200.0,
+		Sound:OpenBox,
+	}
+
+	recipe Tear Boomer Skin Apart
+	{
+		boomerSpcl,
+		CanBeDoneFromFloor:true,
+		Result:Base.Butter=1,
+		OnCreate:GetLootFromSkin,
+		Time:200.0,
+		Sound:OpenBox,
+	}
+
+	recipe Tear Reclaimer Skin Apart
+	{
+		reclaimerSpcl,
+		CanBeDoneFromFloor:true,
+		Result:Base.Butter=1,
+		OnCreate:GetLootFromSkin,
+		Time:200.0,
+		Sound:OpenBox,
+	}
+}

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fileGuidTable>
+
+	<files>
+		<path>media/clothing/clothingItems/chargerSpcl.xml</path>
+		<guid>CHARGERSKIN-2bb0-4f75-a4bb-ab8a62975b36</guid>
+	</files>
+
+	<files>
+		<path>media/clothing/clothingItems/reclaimerSpcl.xml</path>
+		<guid>RECLAIMERSKIN-197e-40aa-8dd0-ad7b4c4c05a5</guid>
+	</files>
+
+	<files>
+		<path>media/clothing/clothingItems/boomerSpcl.xml</path>
+		<guid>BOOMERSKIN-ea11-4803-9092-b8005083f71b</guid>
+	</files>
+
+</fileGuidTable>

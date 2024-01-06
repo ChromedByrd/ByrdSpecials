@@ -1,0 +1,66 @@
+module Base
+{
+	
+	item chargerSpcl
+	{
+		Type = Clothing,
+		DisplayName = Charger Skin,
+		ClothingItem = chargerSpcl,
+		Icon = down,
+		WorldStaticModel = down,
+		BodyLocation = Shoes,
+		RunSpeedModifier = 1,
+		CombatSpeedModifier = 1,
+		BiteDefense = 0,
+		ScratchDefense = 0,
+		NeckProtectionModifier = 0,
+		Insulation = 0,
+		WindResistance = 0,
+		WaterResistance = 0,
+		Weight = 2,
+	}
+
+	item reclaimerSpcl
+	{
+		Type = Clothing,
+		DisplayName = Reclaimer Skin,
+		ClothingItem = reclaimerSpcl,
+		Icon = down,
+		WorldStaticModel = down,
+		BodyLocation = Shoes,
+		RunSpeedModifier = 1,
+		CombatSpeedModifier = 1,
+		BiteDefense = 0,
+		ScratchDefense = 0,
+		NeckProtectionModifier = 0,
+		Insulation = 0,
+		WindResistance = 0,
+		WaterResistance = 0,
+		Weight = 2,
+	}
+
+	item boomerSpcl
+	{
+		Type = Clothing,
+		DisplayName = Boomer Skin,
+		ClothingItem = boomerSpcl,
+		Icon = down,
+		WorldStaticModel = down,
+		BodyLocation = Shoes,
+		RunSpeedModifier = 1,
+		CombatSpeedModifier = 1,
+		BiteDefense = 0,
+		ScratchDefense = 0,
+		NeckProtectionModifier = 0,
+		Insulation = 0,
+		WindResistance = 0,
+		WaterResistance = 0,
+		Weight = 2,
+	}
+
+	model down
+    {
+        mesh = WorldItems/Clothing/down,
+        scale = 1
+    }
+}
