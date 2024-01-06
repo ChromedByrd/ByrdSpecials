@@ -52,7 +52,7 @@ local function specialZombieAbilities(zombie)
 	local spclZ = zombie;
 
 	-- Check if the zombie is alive.
-	if spclZ.isAlive() ~= true then
+	if spclZ:isAlive() ~= true then
 		return
 	end
 
