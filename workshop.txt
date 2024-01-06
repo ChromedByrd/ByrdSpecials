@@ -1,6 +1,11 @@
 version=1
 id=3128986588
 title=Byrd Specials
-description=This mod adds three new special zeds. These deadheads have unique and INCREDIBLY CHALLENGING abilities to deal with. You WILL lose your character multiple times in solo play. This mod works in multiplayer but is not compatible with RandomZombies or other mods like that. It has a unique way of setting the speed of each special biter. The geeks also drop useful tools to offset the difficulty a bit. A user by the alias Satispie let me use the graphical assets in the game.
+description=This mod adds three new special zeds. These deadheads have unique and INCREDIBLY CHALLENGING abilities to deal with. You WILL lose your character multiple times in solo play. This mod works in multiplayer but is not compatible with RandomZombies or other mods like that. It has a unique way of setting the speed of each special biter. The geeks also drop useful tools to offset the difficulty a bit. A user by the alias Satispie let me use the graphical assets in the game.
+description=
+description=https://github.com/ChromedByrd/ByrdSpecials
+description=
+description=Workshop ID: 3128986588
+description=Mod ID: Byrd Specials
 tags=Hardmode;Multiplayer;Silly/Fun;Textures
 visibility=public

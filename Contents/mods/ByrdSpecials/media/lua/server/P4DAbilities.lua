@@ -1,22 +1,66 @@
 --Function to be used elsewhere inside this "class"
 local function GetHypotenuse(zX, zY, pX, pY)
-    return math.abs((zX-pX)^2 + math.abs(zY-pY)^2)^0.5;
+    return math.sqrt((zX - pX)^2 + (zY - pY)^2)
+end
+
+local function getNearestPlayerToZombie(zombie)
+	if isServer() then
+		return getPlayer();
+	end
+    local nearestPlayer = nil
+    local shortestDistance = math.huge  -- Represents a very large number
+
+    local players = getOnlinePlayers()  -- Get the list of online players
+
+    for i = 1, #players do
+        local player = players[i]
+        local distance = GetHypotenuse(zombie.getX(), zombie.getY(), player.getX(), player.getY())
+        if distance < shortestDistance then
+            shortestDistance = distance
+            nearestPlayer = player
+        end
+    end
+
+    return nearestPlayer
 end
 
 local SPEED_SPRINTER = 1
 local SPEED_FAST_SHAMBLER = 2
 local SPEED_SHAMBLER = 3
 
-function isTableEmpty(t)
+local function isTableEmpty(t)
 	for _ in pairs(t) do
 		return false
 	end
 	return true
 end
+--
+local function doCheckAbilityCountdownCheck(zombieToPlayerRange,rangeToCheck,spclZ)
+	-- If they are in range then we need to start the countdown for the ability usage.
+	if zombieToPlayerRange < rangeToCheck then
+		spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
+		return true
+	-- If we are out of range then we need to reset the countdown.
+	else 
+		spclZ:getModData()["abilityTicker"] = 0;
+		return false
+	end
+end
 --Meant to change behavior of specials.
-function SpecialZombieAbilities(zombie)
+local function specialZombieAbilities(zombie)
 	-- I only added this because I needed a locally exposed value in the debugger.
 	local spclZ = zombie;
+
+	-- Check if the zombie is alive.
+	if ~spclZ.isAlive() then
+		return
+	end
+
+	-- Because this game is trash.....
+	if spclZ:getHealth() <= 0 then
+		spclZ:Kill(nil);
+	end
+
 	local outfit = tostring(spclZ:getOutfitName());
 	local mdDta = spclZ:getModData();
 	
@@ -25,11 +69,17 @@ function SpecialZombieAbilities(zombie)
 		spclZ:getModData()["abilityTicker"] = 0
 	end
 	
-	local player = getPlayer();
+	local player = getNearestPlayerToZombie(spclZ);
+
+	--Exit if it can't find a player.
+	if player == nil then
+		return
+	end
+
 	local rangeToPlayer = GetHypotenuse(spclZ:getX(), spclZ:getY(), player:getX(), player:getY());
 	
 	if outfit == CHARGER_OUTFIT_NAME then
-		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,CHARGER_MAX_RANGE_CHECK,spclZ)
+		local isInRange = doCheckAbilityCountdownCheck(rangeToPlayer,CHARGER_MAX_RANGE_CHECK,spclZ)
 		if isInRange then
 			if rangeToPlayer <= CHARGER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= CHARGER_CD and spclZ:isKnockedDown() == false then
@@ -39,19 +89,19 @@ function SpecialZombieAbilities(zombie)
 			end
 		end
 	elseif outfit == BOOMER_OUTFIT_NAME then
-		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,BOOMER_MAX_RANGE_CHECK,spclZ)
+		local isInRange = doCheckAbilityCountdownCheck(rangeToPlayer,BOOMER_MAX_RANGE_CHECK,spclZ)
 		if isInRange then
 			if rangeToPlayer <= BOOMER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= BOOMER_CD then
-					spclZ:getCurrentSquare():explode()
+					spclZ:getCurrentSquare():explode();
 					spclZ:playSound("BigExplosion");
-					WorldFlares.launchFlare(750, spclZ:getX(), spclZ:getY(), 5, 0, 1, 0, 0, 1, 0, 0);
-					spclZ:setHealth(0)
+					spclZ:setHealth(0);
+					spclZ:Kill(nil);
 				end
 			end
 		end
 	elseif outfit == RECLAIMER_OUTFIT_NAME then
-		local isInRange = DoCheckAbilityCountdownCheck(rangeToPlayer,RECLAIMER_MAX_RANGE_CHECK,spclZ)
+		local isInRange = doCheckAbilityCountdownCheck(rangeToPlayer,RECLAIMER_MAX_RANGE_CHECK,spclZ)
 		if isInRange then
 			if rangeToPlayer <= RECLAIMER_ABILITY_RANGE then
 				if spclZ:getModData()["abilityTicker"] >= RECLAIMER_CD then
@@ -64,17 +114,5 @@ function SpecialZombieAbilities(zombie)
 		--Not a special zombie.
 	end
 end
---
-function DoCheckAbilityCountdownCheck(zombieToPlayerRange,rangeToCheck,spclZ)
-	-- If they are in range then we need to start the countdown for the ability usage.
-	if zombieToPlayerRange < rangeToCheck then
-		spclZ:getModData()["abilityTicker"] = spclZ:getModData()["abilityTicker"] + 1;
-		return true
-	-- If we are out of range then we need to reset the countdown.
-	else 
-		spclZ:getModData()["abilityTicker"] = 0;
-		return false
-	end
-end
 
-Events.OnZombieUpdate.Add(SpecialZombieAbilities)
+Events.OnZombieUpdate.Add(specialZombieAbilities)
